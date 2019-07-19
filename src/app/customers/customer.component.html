@@ -219,3 +219,45 @@
 <br>Touched: {{ signupForm.touched }}
 <br>Valid: {{ signupForm.valid }}
 <br>Value: {{ signupForm.value | json }}
+
+<!--
+3.4
+template-driven:
+
+<form (ngSubmit)="save()">
+  <div>
+    <label for="firstNameId">First Name</label>
+    <input id="firstNameId" type="text" placeholder="First Name (required)" required minlength="3"
+    [(ngModel)]="customer.firstName"
+    name="firstName"
+    #firstNameVar="ngModel"
+    [ngClass]="{'is-invalid': firstNameVar.touched && !firstNameVar.valid }" />
+    <span *ngIf="firstNameVar.errors">
+      Please enter your first name.
+    </span>
+  </div>
+  ...
+  <button type="submit">Save</button>
+</form>
+
+
+How about the reactive form template? Recall that the form model is built in the component class, so no need for template reference variables. Reactive forms do not use two-way binding, so no ngModel or name attribute. And with reactive forms, the validation is defined in the class, so no validation attributes here either. We still have the form element, but it now binds the formGroup directive to the form model we create in our component class. We still have a label and input element for each data entry field, but now each input element is bound to the name of a FormControl instance in the form model. To display the validation message and set the error style, the template uses the formError property defined in the component class. We'll look at the syntax in detail and build our own reactive form in the next module. But first, let's spend a moment looking at the code for a template-driven form, just enough to have the background information we need to compare it with reactive forms.
+
+
+reactive:
+
+<form (ngSubmit)="save()" [formGroup]="signupForm">
+  <div>
+    <label for="firstNameId">First Name</label>
+    <input id="firstNameId" type="text" placeholder="First Name (required)" formControlName="firstName"
+    [ngClass]="{'is-invalid': formError.firstName }" />
+    <span *ngIf="formError.firstName">
+      {{formError.firstName}}
+    </span>
+  </div>
+  ...
+  <button type="submit">Save</button>
+</form>
+
+
+-->
